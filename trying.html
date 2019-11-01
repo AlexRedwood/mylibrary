@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Your own library</title>
+	<meta charset = "UTF-8">
+	<link rel = "stylesheet" type = "text/css" href ="style-trying.css">
+</head>
+
+<body>
+<header>
+<h2> Welcome to your own library</h2> 
+</header>
+<main id = "main">
+
+	<div id = "table-field">
+	  
+	</div>
+
+	<button id="displayForms">Add new book</button>
+
+	<form id = "form" autocomplete="off">
+  		<fieldset id = "fieldset">
+    		    <legend>New book</legend>
+   		    Book:<br>
+    		    <input type="text" placeholder="Your book name..." name="bookName" id="bookInput"><br>
+    		    Author:<br>
+    		    <input type="text" placeholder="Author name..." name="author" id="authorInput"><br>
+		    Pages:<br>
+    		    <input type="number" placeholder="Amount of pages..." name="pages" id="pagesInput"><br>
+		    <div class="completed">
+			Completed?&nbsp;&nbsp;  
+		    	<label class="switch">
+    		    		<input type="checkbox" name="completed?" id="toggleInput">
+				<span class="slider round"></span>
+		    	</label>
+		    </div>
+
+		    <br><br>
+    		    <input type="button" id="add" value="Add">
+			
+  		</fieldset>
+	</form>
+	
+</main>
+<footer>
+<button type="button" id="theme-changer">Going dark</button>
+</footer>
+
+<script src="script.js"></script> 
+
+</body>
+</html>
