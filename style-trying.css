@@ -11,7 +11,8 @@
 	--deleteColor: #ed3330;
 	--buttonHoverColor: darkcyan;
 	--addButtonHoverColor: Lime;
-	--fieldsetBorder: 1px outset rgba(0,0,0,0.6);
+  --fieldsetBorder: 1px solid rgba(0,0,0,0.6);
+  --tableBorderColor: 1px solid rgba(0,0,0,0.6);
 } 
 
 :root[theme='dark'] {
@@ -23,7 +24,8 @@
 	--deleteColor: #ed3330;
 	--buttonHoverColor: Lime;
 	--addButtonHoverColor: white;
-	--fieldsetBorder: 1px solid darkcyan;
+  --fieldsetBorder: 1px solid darkcyan;
+  --tableBorderColor: 1px solid darkcyan;
 }
 
 ::selection {
@@ -101,7 +103,14 @@ th, td {
 }
 
 table {
-  border: 1.2px solid var(--fontColor);
+  border-collapse: collapse;
+  width: 100%;
+  table-layout: fixed;
+
+}
+
+#table-field {
+  border: var(--fieldsetBorder);
   border-collapse: collapse;
   width: 100%;
   table-layout: fixed;
