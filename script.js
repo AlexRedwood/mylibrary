@@ -44,7 +44,7 @@ const themeChanger = document.getElementById('theme-changer');
 		} else {
 			alert ('Something is wrong in changeMyValue function.');
 		}		
-
+		if (storageAvailable('localStorage')) localStorage.setItem('items', JSON.stringify(myLibrary))
 		actualiseLibrary();
 	}
 	
