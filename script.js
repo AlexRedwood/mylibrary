@@ -13,13 +13,13 @@ const themeChanger = document.getElementById('theme-changer');
 
 
   	function appendDeleteButtonTo(element, identificator = "undefined") {
-		let btn = document.createElement('input');
-		btn.type = "button"; 
-		btn.className = "btn";
-		btn.setAttribute('id', `btn ${identificator}`);
-		btn.value = "X";
-		btn.addEventListener('click', deleteMyRow); 
-		element.appendChild(btn);
+			let btn = document.createElement('input');
+			btn.type = "button"; 
+			btn.className = "btn";
+			btn.setAttribute('id', `btn ${identificator}`);
+			btn.value = "X";
+			btn.addEventListener('click', deleteMyRow); 
+			element.appendChild(btn);
 	}
 
 	function appendCompletedButtonTo(element, identificator, value) {
@@ -108,37 +108,37 @@ const themeChanger = document.getElementById('theme-changer');
 	  fieldsetDisplay = window.getComputedStyle(fieldset).display
 
 	  if (fieldsetDisplay == "none") {
-		fieldset.style.display = "block";
-		displayFormsButton.textContent = "Hide forms";
-          } else if (fieldsetDisplay == "block") {
-		fieldset.style.display = "none";
-		displayFormsButton.textContent = "Add new book";
+			fieldset.style.display = "block";
+			displayFormsButton.textContent = "Hide forms";
+    } else if (fieldsetDisplay == "block") {
+			fieldset.style.display = "none";
+			displayFormsButton.textContent = "Add new book";
 	  } else {
-		alert('Error in displayForms function.');
+			alert('Error in displayForms function.');
 	  }
 	}
 
 
 	let newBook = function () {
-		    let bookValue = document.getElementById("bookInput").value;
-		    let authorValue = document.getElementById("authorInput").value;
-		    let pagesValue = document.getElementById("pagesInput").value;
-		    let stylishPagesValue = parseInt(pagesValue).toLocaleString();
-		    let toggleValue = getToggleValue();
-		    let book = new Book(bookValue, authorValue, stylishPagesValue, toggleValue);
-		    return book;		
+		let bookValue = document.getElementById("bookInput").value;
+		let authorValue = document.getElementById("authorInput").value;
+		let pagesValue = document.getElementById("pagesInput").value;
+		let stylishPagesValue = parseInt(pagesValue).toLocaleString();
+		let toggleValue = getToggleValue();
+		let book = new Book(bookValue, authorValue, stylishPagesValue, toggleValue);
+		return book;		
 	}
 
-	const book1 = new Book("The Hobbit", "J.R.Tolkien", "310", "No");
-	myLibrary.push(book1);
+
 	const tableBody = document.getElementById('tableBody');
 
 	function addBookToLibrary() {
 		if (userInputIsOK()) {
-		    myLibrary.push(newBook());
-		    actualiseLibrary();
-		    clearInputDisplay();
-		    console.table(myLibrary);
+			myLibrary.push(newBook());
+			if (storageAvailable('localStorage')) localStorage.setItem('items', JSON.stringify(myLibrary))
+			actualiseLibrary();
+			clearInputDisplay();
+			console.table(myLibrary);
 		} 
 	}
 
@@ -188,6 +188,7 @@ const themeChanger = document.getElementById('theme-changer');
 		let buttonId = this.id;
 		let rowId = buttonId.slice(3);
 		myLibrary.splice(rowId, 1);
+		if (storageAvailable('localStorage')) localStorage.setItem('items', JSON.stringify(myLibrary))
 		actualiseLibrary();
 	}
 	
@@ -206,7 +207,57 @@ const themeChanger = document.getElementById('theme-changer');
 		
 		return true;		
 	} 
+
+
+	function storageAvailable(type) {
+    var storage;
+    try {
+        storage = window[type];
+        var x = '__storage_test__';
+        storage.setItem(x, x);
+        storage.removeItem(x);
+        return true;
+    }
+    catch(e) {
+        return e instanceof DOMException && (
+            // everything except Firefox
+            e.code === 22 ||
+            // Firefox
+            e.code === 1014 ||
+            // test name field too, because code might not be present
+            // everything except Firefox
+            e.name === 'QuotaExceededError' ||
+            // Firefox
+            e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+            // acknowledge QuotaExceededError only if there's something already stored
+            (storage && storage.length !== 0);
+    }
+}
+
+if (storageAvailable('localStorage')) {
+	// Yippee! We can use localStorage awesomeness
+	getItemsFromLocalStorage()
 	
 	createTable();
 	displayMyLibrary();
+}
+else {
+	// Too bad, no localStorage for us
+	myLibrary = [];
+	const book1 = new Book("The Hobbit", "J.R.Tolkien", "310", "No");
+	myLibrary.push(book1);
+	
+	createTable();
+	displayMyLibrary();
+}
 
+function getItemsFromLocalStorage() {
+	if (localStorage['items']) {
+		myLibrary = JSON.parse(localStorage.getItem('items'));
+
+	} else {
+		myLibrary = [];
+	  const book1 = new Book("The Hobbit", "J.R.Tolkien", "310", "No");
+	  myLibrary.push(book1);
+	}
+};
